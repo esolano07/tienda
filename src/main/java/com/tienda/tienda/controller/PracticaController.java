@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/practica4")
+@RequestMapping("/practica")
 public class PracticaController {
     
      @Autowired
@@ -28,7 +28,7 @@ public class PracticaController {
     public String practica(Model model) {
         var productos = productoService.getProductos(false);
         model.addAttribute("productos", productos);
-        return "/practica4/practica";
+        return "/practica/practica";
     }
     
     @PostMapping("/query1")
@@ -39,6 +39,6 @@ public class PracticaController {
         model.addAttribute("productos", productos);
         model.addAttribute("existenciasInf", existenciasInf);
         model.addAttribute("existenciasSup", existenciasSup);
-        return "/practica4/practica";
+        return "/practica/practica";
     }
 }
