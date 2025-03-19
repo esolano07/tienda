@@ -29,9 +29,9 @@ public class ProductoController {
     
     @RequestMapping("/listado")
     public String inicio(Model model) {
-        List<Producto> productos  = productoService.getProductos(false);
-        
-        List<Categoria> listaCategoriaActivas  = categoriaService.getCategorias(false );
+        //List<Producto> productos  = productoService.getProductos(false);
+        List<Producto> productos = productoService.findByExistencias(5);
+        List<Categoria> listaCategoriaActivas  = categoriaService.getCategorias(false);
         
         model.addAttribute("productos", productos);
         model.addAttribute("totalProductos", productos.size());
@@ -64,4 +64,6 @@ public class ProductoController {
         productoService.save(producto);
         return "redirect:/producto/listado";
     }
+    
+   
 }
