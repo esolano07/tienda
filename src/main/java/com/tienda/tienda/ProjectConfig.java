@@ -18,6 +18,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Configuration
 @EnableWebSecurity
@@ -98,7 +103,7 @@ public class ProjectConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-    @Bean
+   /* @Bean
     public UserDetailsService users() {
         UserDetails admin = User.builder()
             .username("juan")
@@ -117,5 +122,16 @@ public class ProjectConfig implements WebMvcConfigurer {
             .build();
             
         return new InMemoryUserDetailsManager(admin, sales, user);
-    }
+    }*/
+    
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authBuilder.userDetailsService(userDetailsService)
+                  .passwordEncoder(new BCryptPasswordEncoder());
+        return authBuilder.build();
+    }    
 }
